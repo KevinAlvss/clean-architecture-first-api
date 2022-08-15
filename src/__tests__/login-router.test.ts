@@ -1,18 +1,32 @@
 class LoginController {
   login(httpRequest) {
     if (!httpRequest.body) {
-      return {
-        statusCode: 500,
-      };
+      return HttpResponse.serverError();
     }
 
     const { email, password } = httpRequest.body;
     if (!email || !password) {
-      return {
-        statusCode: 400,
-      };
+      return HttpResponse.badRequest();
     }
 
+    return HttpResponse.success();
+  }
+}
+
+class HttpResponse {
+  static badRequest() {
+    return {
+      statusCode: 400,
+    };
+  }
+
+  static serverError() {
+    return {
+      statusCode: 500,
+    };
+  }
+
+  static success() {
     return {
       statusCode: 200,
     };
