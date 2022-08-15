@@ -1,5 +1,11 @@
 class LoginController {
   login(httpRequest) {
+    if (!httpRequest.body) {
+      return {
+        statusCode: 500,
+      };
+    }
+
     const { email, password } = httpRequest.body;
     if (!email || !password) {
       return {
@@ -40,5 +46,11 @@ describe("Login Router", () => {
 
     const httpResponse = sut.login(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
+  });
+
+  it("Should return 500 if httpRequest has no body", () => {
+    const sut = makeSut();
+    const httpResponse = sut.login({});
+    expect(httpResponse.statusCode).toBe(500);
   });
 });
