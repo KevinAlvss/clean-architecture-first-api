@@ -1,3 +1,5 @@
+import { HttpResponse } from "../helpers/httpResponse";
+
 class LoginController {
   login(httpRequest) {
     if (!httpRequest.body) {
@@ -10,26 +12,6 @@ class LoginController {
     }
 
     return HttpResponse.success();
-  }
-}
-
-class HttpResponse {
-  static badRequest() {
-    return {
-      statusCode: 400,
-    };
-  }
-
-  static serverError() {
-    return {
-      statusCode: 500,
-    };
-  }
-
-  static success() {
-    return {
-      statusCode: 200,
-    };
   }
 }
 
