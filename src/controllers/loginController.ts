@@ -7,20 +7,20 @@ export class LoginController {
   }
 
   login(httpRequest) {
-    if (!httpRequest.body) {
+    try {
+      const { email, password } = httpRequest.body;
+      if (!email || !password) {
+        return HttpResponse.badRequest();
+      }
+
+      const accessToken = this.authUseCase.auth(email, password);
+      if (!accessToken) {
+        return HttpResponse.unauthorized();
+      }
+
+      return HttpResponse.success({ accessToken });
+    } catch (error) {
       return HttpResponse.serverError();
     }
-
-    const { email, password } = httpRequest.body;
-    if (!email || !password) {
-      return HttpResponse.badRequest();
-    }
-
-    const accessToken = this.authUseCase.auth(email, password);
-    if (!accessToken) {
-      return HttpResponse.unauthorized();
-    }
-
-    return HttpResponse.success({ accessToken });
   }
 }
