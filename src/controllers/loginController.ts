@@ -17,6 +17,6 @@ export class LoginController {
     }
 
     this.authUseCase.auth(email, password);
-    return HttpResponse.success();
+    return HttpResponse.unauthorized();
   }
 }

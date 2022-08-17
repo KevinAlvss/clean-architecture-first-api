@@ -16,4 +16,10 @@ export class HttpResponse {
       statusCode: 200,
     };
   }
+
+  static unauthorized() {
+    return {
+      statusCode: 401,
+    };
+  }
 }
