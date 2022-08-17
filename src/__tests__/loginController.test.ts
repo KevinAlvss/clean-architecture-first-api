@@ -5,7 +5,7 @@ function makeSut() {
     email: string;
     password: string;
     acessToken: string | null;
-    async auth(email, password) {
+    async auth(email: string, password: string) {
       this.email = email;
       this.password = password;
       return this.acessToken;
@@ -24,36 +24,6 @@ function makeSut() {
 }
 
 describe("Login Router", () => {
-  it("Should return 400 if no email is provided", async () => {
-    const { sut } = makeSut();
-    const httpRequest = {
-      body: {
-        password: "any_password",
-      },
-    };
-
-    const httpResponse = await sut.login(httpRequest);
-    expect(httpResponse.statusCode).toBe(400);
-  });
-
-  it("Should return 400 if no password is provided", async () => {
-    const { sut } = makeSut();
-    const httpRequest = {
-      body: {
-        email: "any@mail.com",
-      },
-    };
-
-    const httpResponse = await sut.login(httpRequest);
-    expect(httpResponse.statusCode).toBe(400);
-  });
-
-  it("Should return 500 if httpRequest has no body", async () => {
-    const { sut } = makeSut();
-    const httpResponse = await sut.login({});
-    expect(httpResponse.statusCode).toBe(500);
-  });
-
   it("Should call AuthUseCase with correct params", async () => {
     const { sut, authUseCaseSpy } = makeSut();
     const httpRequest = {

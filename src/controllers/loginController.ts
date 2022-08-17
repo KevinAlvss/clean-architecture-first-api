@@ -1,19 +1,23 @@
 import { HttpResponse } from "../helpers/httpResponse";
 
+interface LoginHttpRequest {
+  body: {
+    email: string;
+    password: string;
+  };
+}
+
 export class LoginController {
   public authUseCase: any;
   constructor(authUseCase) {
     this.authUseCase = authUseCase;
   }
 
-  async login(httpRequest) {
+  async login(httpRequest: LoginHttpRequest) {
     try {
       const { email, password } = httpRequest.body;
-      if (!email || !password) {
-        return HttpResponse.badRequest();
-      }
-
       const accessToken = await this.authUseCase.auth(email, password);
+
       if (!accessToken) {
         return HttpResponse.unauthorized();
       }
