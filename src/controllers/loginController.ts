@@ -16,7 +16,11 @@ export class LoginController {
       return HttpResponse.badRequest();
     }
 
-    this.authUseCase.auth(email, password);
-    return HttpResponse.unauthorized();
+    const accessToken = this.authUseCase.auth(email, password);
+    if (!accessToken) {
+      return HttpResponse.unauthorized();
+    }
+
+    return HttpResponse.success();
   }
 }

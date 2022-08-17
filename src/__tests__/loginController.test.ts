@@ -4,13 +4,17 @@ function makeSut() {
   class AuthUseCaseSpy {
     email: string;
     password: string;
+    acessToken: string | null;
     auth(email, password) {
       this.email = email;
       this.password = password;
+      return this.acessToken;
     }
   }
 
   const authUseCaseSpy = new AuthUseCaseSpy();
+  authUseCaseSpy.acessToken = "valid token";
+
   const sut = new LoginController(authUseCaseSpy);
 
   return {
@@ -65,7 +69,8 @@ describe("Login Router", () => {
   });
 
   it("Should return 401 when invalid credentials are provided", () => {
-    const { sut } = makeSut();
+    const { sut, authUseCaseSpy } = makeSut();
+    authUseCaseSpy.acessToken = null;
     const httpRequest = {
       body: {
         email: "invalid@mail.com",
@@ -75,5 +80,19 @@ describe("Login Router", () => {
 
     const httpResponse = sut.login(httpRequest);
     expect(httpResponse.statusCode).toBe(401);
+  });
+
+  it("Should return 200 when valid credentials are provided", () => {
+    const { sut, authUseCaseSpy } = makeSut();
+    authUseCaseSpy.acessToken = "valid token";
+    const httpRequest = {
+      body: {
+        email: "valid@mail.com",
+        password: "valid_password",
+      },
+    };
+
+    const httpResponse = sut.login(httpRequest);
+    expect(httpResponse.statusCode).toBe(200);
   });
 });
