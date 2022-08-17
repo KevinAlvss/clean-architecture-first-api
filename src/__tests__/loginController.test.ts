@@ -5,7 +5,7 @@ function makeSut() {
     email: string;
     password: string;
     acessToken: string | null;
-    auth(email, password) {
+    async auth(email, password) {
       this.email = email;
       this.password = password;
       return this.acessToken;
@@ -24,7 +24,7 @@ function makeSut() {
 }
 
 describe("Login Router", () => {
-  it("Should return 400 if no email is provided", () => {
+  it("Should return 400 if no email is provided", async () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
@@ -32,11 +32,11 @@ describe("Login Router", () => {
       },
     };
 
-    const httpResponse = sut.login(httpRequest);
+    const httpResponse = await sut.login(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
   });
 
-  it("Should return 400 if no password is provided", () => {
+  it("Should return 400 if no password is provided", async () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
@@ -44,17 +44,17 @@ describe("Login Router", () => {
       },
     };
 
-    const httpResponse = sut.login(httpRequest);
+    const httpResponse = await sut.login(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
   });
 
-  it("Should return 500 if httpRequest has no body", () => {
+  it("Should return 500 if httpRequest has no body", async () => {
     const { sut } = makeSut();
-    const httpResponse = sut.login({});
+    const httpResponse = await sut.login({});
     expect(httpResponse.statusCode).toBe(500);
   });
 
-  it("Should call AuthUseCase with correct params", () => {
+  it("Should call AuthUseCase with correct params", async () => {
     const { sut, authUseCaseSpy } = makeSut();
     const httpRequest = {
       body: {
@@ -63,12 +63,12 @@ describe("Login Router", () => {
       },
     };
 
-    sut.login(httpRequest);
+    await sut.login(httpRequest);
     expect(authUseCaseSpy.email).toBe(httpRequest.body.email);
     expect(authUseCaseSpy.password).toBe(httpRequest.body.password);
   });
 
-  it("Should return 401 when invalid credentials are provided", () => {
+  it("Should return 401 when invalid credentials are provided", async () => {
     const { sut, authUseCaseSpy } = makeSut();
     authUseCaseSpy.acessToken = null;
     const httpRequest = {
@@ -78,11 +78,11 @@ describe("Login Router", () => {
       },
     };
 
-    const httpResponse = sut.login(httpRequest);
+    const httpResponse = await sut.login(httpRequest);
     expect(httpResponse.statusCode).toBe(401);
   });
 
-  it("Should return 200 when valid credentials are provided", () => {
+  it("Should return 200 when valid credentials are provided", async () => {
     const { sut, authUseCaseSpy } = makeSut();
     authUseCaseSpy.acessToken = "valid token";
     const httpRequest = {
@@ -92,7 +92,7 @@ describe("Login Router", () => {
       },
     };
 
-    const httpResponse = sut.login(httpRequest);
+    const httpResponse = await sut.login(httpRequest);
     expect(httpResponse.statusCode).toBe(200);
   });
 });

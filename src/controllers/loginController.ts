@@ -6,14 +6,14 @@ export class LoginController {
     this.authUseCase = authUseCase;
   }
 
-  login(httpRequest) {
+  async login(httpRequest) {
     try {
       const { email, password } = httpRequest.body;
       if (!email || !password) {
         return HttpResponse.badRequest();
       }
 
-      const accessToken = this.authUseCase.auth(email, password);
+      const accessToken = await this.authUseCase.auth(email, password);
       if (!accessToken) {
         return HttpResponse.unauthorized();
       }
