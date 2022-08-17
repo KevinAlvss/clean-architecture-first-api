@@ -1,6 +1,11 @@
 import { HttpResponse } from "../helpers/httpResponse";
 
 export class LoginController {
+  public authUseCase: any;
+  constructor(authUseCase) {
+    this.authUseCase = authUseCase;
+  }
+
   login(httpRequest) {
     if (!httpRequest.body) {
       return HttpResponse.serverError();
@@ -11,6 +16,7 @@ export class LoginController {
       return HttpResponse.badRequest();
     }
 
+    this.authUseCase.auth(email, password);
     return HttpResponse.success();
   }
 }
