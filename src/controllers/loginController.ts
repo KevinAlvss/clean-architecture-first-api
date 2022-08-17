@@ -21,6 +21,6 @@ export class LoginController {
       return HttpResponse.unauthorized();
     }
 
-    return HttpResponse.success();
+    return HttpResponse.success({ accessToken });
   }
 }
