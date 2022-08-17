@@ -1,19 +1,4 @@
-import { HttpResponse } from "../helpers/httpResponse";
-
-class LoginController {
-  login(httpRequest) {
-    if (!httpRequest.body) {
-      return HttpResponse.serverError();
-    }
-
-    const { email, password } = httpRequest.body;
-    if (!email || !password) {
-      return HttpResponse.badRequest();
-    }
-
-    return HttpResponse.success();
-  }
-}
+import { LoginController } from "../controllers/loginController";
 
 function makeSut() {
   return new LoginController();
