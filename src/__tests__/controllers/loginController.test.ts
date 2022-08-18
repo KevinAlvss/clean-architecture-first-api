@@ -1,4 +1,5 @@
 import { LoginController } from "../../controllers/loginController";
+import { EmailValidator } from "../../utils/emailValidator";
 
 function makeSut() {
   const authUseCaseSpy = makeAuthUseCase();
@@ -30,27 +31,7 @@ function makeAuthUseCase() {
 }
 
 function makeEmailValidator() {
-  class EmailValidator {
-    isEmailValid: boolean;
-    email: string;
-
-    isValid(email: string) {
-      this.email = email;
-
-      const validRegex =
-        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-      if (this.email.match(validRegex)) {
-        this.isEmailValid = true;
-        return this.isEmailValid;
-      }
-
-      this.isEmailValid = false;
-      return this.isEmailValid;
-    }
-  }
-
-  const emailValidator = new EmailValidator();
-  return emailValidator;
+  return new EmailValidator();
 }
 
 describe("Login Router", () => {
