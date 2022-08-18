@@ -22,6 +22,7 @@ export class AuthUseCase {
       return null;
     }
 
-    await this.tokenGenerator.generate(user.id);
+    const acessToken = await this.tokenGenerator.generate(user.id);
+    return acessToken;
   }
 }

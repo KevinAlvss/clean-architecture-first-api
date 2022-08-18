@@ -25,11 +25,11 @@ class EncrypterSpy {
 
 class TokenGeneratorSpy {
   userId: string;
-  acessToken: string;
+  accessToken: string;
 
   async generate(userId: string) {
     this.userId = userId;
-    return this.acessToken;
+    return this.accessToken;
   }
 }
 
@@ -45,7 +45,7 @@ function makeUserEntity() {
 
 function makeTokenGenerator() {
   const tokenGeneratorSpy = new TokenGeneratorSpy();
-  tokenGeneratorSpy.acessToken = "any_token";
+  tokenGeneratorSpy.accessToken = "any_token";
   return tokenGeneratorSpy;
 }
 
@@ -110,5 +110,15 @@ describe("Auth UseCase", () => {
     await sut.auth("valid_email@email.com", "valid_password");
 
     expect(tokenGeneratorSpy.userId).toBe(userEntitySpy.user.id);
+  });
+
+  it("Should return access token if correct credentias are provided", async () => {
+    const { sut, tokenGeneratorSpy } = makeSut();
+    const accessToken = await sut.auth(
+      "valid_email@email.com",
+      "valid_password"
+    );
+
+    expect(accessToken).toBe(tokenGeneratorSpy.accessToken);
   });
 });
