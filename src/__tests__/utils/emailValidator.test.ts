@@ -1,10 +1,4 @@
-import validator from "validator";
-
-class EmailValidator {
-  isValid(email: string) {
-    return validator.isEmail(email);
-  }
-}
+import { EmailValidator } from "../../utils/emailValidator";
 
 function makeSut() {
   return new EmailValidator();
