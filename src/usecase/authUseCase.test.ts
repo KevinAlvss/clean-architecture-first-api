@@ -2,9 +2,11 @@ import { AuthUseCase } from "./authUseCase";
 
 class UserEntitySpy {
   email: string;
+  user: any;
+
   async load(email: string) {
     this.email = email;
-    return null;
+    return this.user;
   }
 }
 
@@ -14,6 +16,7 @@ function makeUserEntitySpy() {
 
 function makeSut() {
   const userEntitySpy = makeUserEntitySpy();
+  userEntitySpy.user = "any_user";
   const sut = new AuthUseCase(userEntitySpy);
 
   return {
@@ -31,11 +34,22 @@ describe("Auth UseCase", () => {
   });
 
   it("Should return null if invalid email is provided", async () => {
-    const { sut } = makeSut();
+    const { sut, userEntitySpy } = makeSut();
+    userEntitySpy.user = null;
 
     const acesstoken = await sut.auth(
       "invalid_email@email.com",
       "any_password"
+    );
+    expect(acesstoken).toBeNull();
+  });
+
+  it("Should return null if invalid password is provided", async () => {
+    const { sut } = makeSut();
+
+    const acesstoken = await sut.auth(
+      "any_email@email.com",
+      "invalid_password"
     );
     expect(acesstoken).toBeNull();
   });
