@@ -23,22 +23,22 @@ class EncrypterSpy {
   }
 }
 
-function makeEncrypterSpy() {
+function makeEncrypter() {
   const encrypterSpy = new EncrypterSpy();
   encrypterSpy.isValid = true;
   return encrypterSpy;
 }
 
-function makeUserEntitySpy() {
+function makeUserEntity() {
   return new UserEntitySpy();
 }
 
 function makeSut() {
-  const userEntitySpy = makeUserEntitySpy();
+  const userEntitySpy = makeUserEntity();
   userEntitySpy.user = {
     password: "hashedPassword",
   };
-  const encrypterSpy = makeEncrypterSpy();
+  const encrypterSpy = makeEncrypter();
   const sut = new AuthUseCase(userEntitySpy, encrypterSpy);
 
   return {
