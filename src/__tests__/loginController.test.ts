@@ -1,6 +1,17 @@
 import { LoginController } from "../controllers/loginController";
 
 function makeSut() {
+  const authUseCaseSpy = makeAuthUseCase();
+  const emailValidator = makeEmailValidator();
+  const sut = new LoginController(authUseCaseSpy, emailValidator);
+
+  return {
+    sut,
+    authUseCaseSpy,
+  };
+}
+
+function makeAuthUseCase() {
   class AuthUseCaseSpy {
     email: string;
     password: string;
@@ -13,14 +24,25 @@ function makeSut() {
   }
 
   const authUseCaseSpy = new AuthUseCaseSpy();
-  authUseCaseSpy.acessToken = "valid token";
+  authUseCaseSpy.acessToken = "valid_token";
+  return authUseCaseSpy;
+}
 
-  const sut = new LoginController(authUseCaseSpy);
+function makeEmailValidator() {
+  class EmailValidator {
+    isValid(email: string) {
+      const validRegex =
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      if (email.match(validRegex)) {
+        return true;
+      }
 
-  return {
-    sut,
-    authUseCaseSpy,
-  };
+      return false;
+    }
+  }
+
+  const emailValidator = new EmailValidator();
+  return emailValidator;
 }
 
 describe("Login Router", () => {
@@ -50,6 +72,19 @@ describe("Login Router", () => {
 
     const httpResponse = await sut.login(httpRequest);
     expect(httpResponse.statusCode).toBe(401);
+  });
+
+  it("Should return 400 if an invalid email is provided", async () => {
+    const { sut } = makeSut();
+    const httpRequest = {
+      body: {
+        email: "invalid_email@mail.com",
+        password: "any_password",
+      },
+    };
+
+    const httpResponse = await sut.login(httpRequest);
+    expect(httpResponse.statusCode).toBe(400);
   });
 
   it("Should return 200 when valid credentials are provided", async () => {
