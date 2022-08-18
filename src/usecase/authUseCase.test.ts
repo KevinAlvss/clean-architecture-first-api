@@ -30,7 +30,7 @@ describe("Auth UseCase", () => {
     expect(userEntitySpy.email).toBe("any_email@email.com");
   });
 
-  it("Should return null if UserEntity returns null", async () => {
+  it("Should return null if invalid email is provided", async () => {
     const { sut } = makeSut();
 
     const acesstoken = await sut.auth(
