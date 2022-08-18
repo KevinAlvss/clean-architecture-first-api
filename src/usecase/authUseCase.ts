@@ -3,7 +3,7 @@ export class AuthUseCase {
   encrypter: any;
   tokenGenerator: any;
 
-  constructor(userEntity: any, encrypter: any, tokenGenerator: any) {
+  constructor({ userEntity, encrypter, tokenGenerator }) {
     this.userEntity = userEntity;
     this.encrypter = encrypter;
     this.tokenGenerator = tokenGenerator;

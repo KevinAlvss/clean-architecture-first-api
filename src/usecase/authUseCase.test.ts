@@ -57,7 +57,11 @@ function makeSut() {
   };
   const encrypterSpy = makeEncrypter();
   const tokenGeneratorSpy = makeTokenGenerator();
-  const sut = new AuthUseCase(userEntitySpy, encrypterSpy, tokenGeneratorSpy);
+  const sut = new AuthUseCase({
+    userEntity: userEntitySpy,
+    encrypter: encrypterSpy,
+    tokenGenerator: tokenGeneratorSpy,
+  });
 
   return {
     sut,
