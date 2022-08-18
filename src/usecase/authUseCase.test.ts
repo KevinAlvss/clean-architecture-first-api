@@ -14,15 +14,19 @@ class UserEntitySpy {
 class EncrypterSpy {
   password: string;
   hashedPassword: string;
+  isValid: boolean;
 
   async compare(password: string, hashedPassword: string) {
     this.password = password;
     this.hashedPassword = hashedPassword;
+    return this.isValid;
   }
 }
 
 function makeEncrypterSpy() {
-  return new EncrypterSpy();
+  const encrypterSpy = new EncrypterSpy();
+  encrypterSpy.isValid = true;
+  return encrypterSpy;
 }
 
 function makeUserEntitySpy() {
@@ -64,7 +68,8 @@ describe("Auth UseCase", () => {
   });
 
   it("Should return null if invalid password is provided", async () => {
-    const { sut } = makeSut();
+    const { sut, encrypterSpy } = makeSut();
+    encrypterSpy.isValid = false;
 
     const acesstoken = await sut.auth(
       "any_email@email.com",
