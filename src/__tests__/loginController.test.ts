@@ -8,6 +8,7 @@ function makeSut() {
   return {
     sut,
     authUseCaseSpy,
+    emailValidatorSpy,
   };
 }
 
@@ -31,11 +32,14 @@ function makeAuthUseCase() {
 function makeEmailValidator() {
   class EmailValidator {
     isEmailValid: boolean;
+    email: string;
 
     isValid(email: string) {
+      this.email = email;
+
       const validRegex =
         /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-      if (email.match(validRegex)) {
+      if (this.email.match(validRegex)) {
         this.isEmailValid = true;
         return this.isEmailValid;
       }
@@ -62,6 +66,19 @@ describe("Login Router", () => {
     await sut.login(httpRequest);
     expect(authUseCaseSpy.email).toBe(httpRequest.body.email);
     expect(authUseCaseSpy.password).toBe(httpRequest.body.password);
+  });
+
+  it("Should call EmailValidator with correct params", async () => {
+    const { sut, emailValidatorSpy } = makeSut();
+    const httpRequest = {
+      body: {
+        email: "any@mail.com",
+        password: "any_password",
+      },
+    };
+
+    await sut.login(httpRequest);
+    expect(emailValidatorSpy.email).toBe(httpRequest.body.email);
   });
 
   it("Should return 401 when invalid credentials are provided", async () => {
