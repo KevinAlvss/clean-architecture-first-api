@@ -50,6 +50,6 @@ describe("Auth UseCase", () => {
       "invalid_email@email.com",
       "any_password"
     );
-    expect(acesstoken).toBe(null);
+    expect(acesstoken).toBeNull();
   });
 });
