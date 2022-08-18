@@ -1,17 +1,4 @@
-class AuthUseCase {
-  userEntity: UserEntitySpy;
-  constructor(userEntity: UserEntitySpy) {
-    this.userEntity = userEntity;
-  }
-
-  async auth(email: string, password: string) {
-    const user = await this.userEntity.load(email);
-
-    if (!user) {
-      return null;
-    }
-  }
-}
+import { AuthUseCase } from "./authUseCase";
 
 class UserEntitySpy {
   email: string;
