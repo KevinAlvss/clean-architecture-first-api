@@ -1,4 +1,4 @@
-import { LoginController } from "../controllers/loginController";
+import { LoginController } from "../../controllers/loginController";
 
 function makeSut() {
   const authUseCaseSpy = makeAuthUseCase();
