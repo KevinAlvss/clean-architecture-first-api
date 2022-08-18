@@ -1,5 +1,5 @@
-import { LoginController } from "../../controllers/loginController";
-import { EmailValidator } from "../../utils/emailValidator";
+import { LoginController } from "./loginController";
+import { EmailValidator } from "../utils/emailValidator";
 
 function makeSut() {
   const authUseCaseSpy = makeAuthUseCase();

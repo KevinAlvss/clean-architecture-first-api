@@ -1,4 +1,4 @@
-import { EmailValidator } from "../../utils/emailValidator";
+import { EmailValidator } from "./emailValidator";
 
 function makeSut() {
   return new EmailValidator();
