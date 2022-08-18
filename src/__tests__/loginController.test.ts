@@ -2,8 +2,8 @@ import { LoginController } from "../controllers/loginController";
 
 function makeSut() {
   const authUseCaseSpy = makeAuthUseCase();
-  const emailValidator = makeEmailValidator();
-  const sut = new LoginController(authUseCaseSpy, emailValidator);
+  const emailValidatorSpy = makeEmailValidator();
+  const sut = new LoginController(authUseCaseSpy, emailValidatorSpy);
 
   return {
     sut,
@@ -30,14 +30,18 @@ function makeAuthUseCase() {
 
 function makeEmailValidator() {
   class EmailValidator {
+    isEmailValid: boolean;
+
     isValid(email: string) {
       const validRegex =
         /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       if (email.match(validRegex)) {
-        return true;
+        this.isEmailValid = true;
+        return this.isEmailValid;
       }
 
-      return false;
+      this.isEmailValid = false;
+      return this.isEmailValid;
     }
   }
 
@@ -78,7 +82,7 @@ describe("Login Router", () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
-        email: "invalid_email@mail.com",
+        email: "invalid_email.com",
         password: "any_password",
       },
     };
