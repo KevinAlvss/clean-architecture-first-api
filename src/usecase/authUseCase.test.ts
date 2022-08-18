@@ -23,6 +23,16 @@ class EncrypterSpy {
   }
 }
 
+class TokenGeneratorSpy {
+  userId: string;
+  acessToken: string;
+
+  async generate(userId: string) {
+    this.userId = userId;
+    return this.acessToken;
+  }
+}
+
 function makeEncrypter() {
   const encrypterSpy = new EncrypterSpy();
   encrypterSpy.isValid = true;
@@ -33,18 +43,27 @@ function makeUserEntity() {
   return new UserEntitySpy();
 }
 
+function makeTokenGenerator() {
+  const tokenGeneratorSpy = new TokenGeneratorSpy();
+  tokenGeneratorSpy.acessToken = "any_token";
+  return tokenGeneratorSpy;
+}
+
 function makeSut() {
   const userEntitySpy = makeUserEntity();
   userEntitySpy.user = {
+    id: "any_id",
     password: "hashedPassword",
   };
   const encrypterSpy = makeEncrypter();
-  const sut = new AuthUseCase(userEntitySpy, encrypterSpy);
+  const tokenGeneratorSpy = makeTokenGenerator();
+  const sut = new AuthUseCase(userEntitySpy, encrypterSpy, tokenGeneratorSpy);
 
   return {
     sut,
     userEntitySpy,
     encrypterSpy,
+    tokenGeneratorSpy,
   };
 }
 
@@ -84,5 +103,12 @@ describe("Auth UseCase", () => {
 
     expect(encrypterSpy.password).toBe("any_password");
     expect(encrypterSpy.hashedPassword).toBe(userEntitySpy.user.password);
+  });
+
+  it("Should call TokenGenerator with correct userId", async () => {
+    const { sut, userEntitySpy, tokenGeneratorSpy } = makeSut();
+    await sut.auth("valid_email@email.com", "valid_password");
+
+    expect(tokenGeneratorSpy.userId).toBe(userEntitySpy.user.id);
   });
 });

@@ -1,10 +1,12 @@
 export class AuthUseCase {
   userEntity: any;
   encrypter: any;
+  tokenGenerator: any;
 
-  constructor(userEntity: any, encrypter: any) {
+  constructor(userEntity: any, encrypter: any, tokenGenerator: any) {
     this.userEntity = userEntity;
     this.encrypter = encrypter;
+    this.tokenGenerator = tokenGenerator;
   }
 
   async auth(email: string, password: string) {
@@ -19,5 +21,7 @@ export class AuthUseCase {
     if (!isValid) {
       return null;
     }
+
+    await this.tokenGenerator.generate(user.id);
   }
 }
