@@ -2,6 +2,7 @@ import { AuthUseCase } from "./authUseCase";
 
 class UserEntitySpy {
   email: string;
+  password: string;
   user: any;
 
   async load(email: string) {
@@ -10,18 +11,36 @@ class UserEntitySpy {
   }
 }
 
+class EncrypterSpy {
+  password: string;
+  hashedPassword: string;
+
+  async compare(password: string, hashedPassword: string) {
+    this.password = password;
+    this.hashedPassword = hashedPassword;
+  }
+}
+
+function makeEncrypterSpy() {
+  return new EncrypterSpy();
+}
+
 function makeUserEntitySpy() {
   return new UserEntitySpy();
 }
 
 function makeSut() {
   const userEntitySpy = makeUserEntitySpy();
-  userEntitySpy.user = "any_user";
-  const sut = new AuthUseCase(userEntitySpy);
+  userEntitySpy.user = {
+    password: "hashedPassword",
+  };
+  const encrypterSpy = makeEncrypterSpy();
+  const sut = new AuthUseCase(userEntitySpy, encrypterSpy);
 
   return {
     sut,
     userEntitySpy,
+    encrypterSpy,
   };
 }
 
@@ -52,5 +71,13 @@ describe("Auth UseCase", () => {
       "invalid_password"
     );
     expect(acesstoken).toBeNull();
+  });
+
+  it("Should call  Encrypter with correct values", async () => {
+    const { sut, userEntitySpy, encrypterSpy } = makeSut();
+    await sut.auth("any_email@email.com", "any_password");
+
+    expect(encrypterSpy.password).toBe("any_password");
+    expect(encrypterSpy.hashedPassword).toBe(userEntitySpy.user.password);
   });
 });

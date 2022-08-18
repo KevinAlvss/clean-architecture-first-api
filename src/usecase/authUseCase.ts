@@ -1,7 +1,10 @@
 export class AuthUseCase {
   userEntity: any;
-  constructor(userEntity: any) {
+  encrypter: any;
+
+  constructor(userEntity: any, encrypter: any) {
     this.userEntity = userEntity;
+    this.encrypter = encrypter;
   }
 
   async auth(email: string, password: string) {
@@ -11,6 +14,7 @@ export class AuthUseCase {
       return null;
     }
 
+    await this.encrypter.compare(password, user.password);
     return null;
   }
 }
