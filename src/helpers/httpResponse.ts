@@ -1,13 +1,17 @@
+import { ServerError, UnauthorizedError } from "./errors";
+
 export class HttpResponse {
-  static badRequest() {
+  static badRequest(error: Error) {
     return {
       statusCode: 400,
+      body: error,
     };
   }
 
   static serverError() {
     return {
       statusCode: 500,
+      body: new ServerError(),
     };
   }
 
@@ -21,6 +25,7 @@ export class HttpResponse {
   static unauthorized() {
     return {
       statusCode: 401,
+      body: new UnauthorizedError(),
     };
   }
 }

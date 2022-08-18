@@ -1,3 +1,4 @@
+import { InvalidCredentialError } from "../helpers/errors";
 import { HttpResponse } from "../helpers/httpResponse";
 
 interface LoginHttpRequest {
@@ -20,7 +21,7 @@ export class LoginController {
       const { email, password } = httpRequest.body;
 
       if (!this.emailValidator.isValid(email)) {
-        return HttpResponse.badRequest();
+        return HttpResponse.badRequest(new InvalidCredentialError());
       }
 
       const accessToken = await this.authUseCase.auth(email, password);
