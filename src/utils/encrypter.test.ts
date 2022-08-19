@@ -1,6 +1,9 @@
+import bcrypt from "bcrypt";
+
 class Encrypter {
-  async compare(password: string, hashed_password: string) {
-    return true;
+  async compare(value: string, hashed_value: string) {
+    const isValid = await bcrypt.compare(value, hashed_value);
+    return isValid;
   }
 }
 
@@ -11,8 +14,18 @@ function makeSut() {
 describe("Encrypter", () => {
   it("Should return true if bcrypt returns true", async () => {
     const sut = makeSut();
-    const isValid = await sut.compare("any_password", "hashed_password");
+    const isValid = await sut.compare(
+      "any_value",
+      "$2b$04$JESYgW.2GqhFxaieXC1wKOnnahs1L/.SyjLMxYAz0ktYWA.FAHpF2"
+    );
 
     expect(isValid).toBeTruthy();
+  });
+
+  it("Should return false if bcrypt returns false", async () => {
+    const sut = makeSut();
+    const isValid = await sut.compare("any_value", "hashed_value");
+
+    expect(isValid).toBeFalsy();
   });
 });
