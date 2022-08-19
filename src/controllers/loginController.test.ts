@@ -31,7 +31,26 @@ function makeAuthUseCase() {
 }
 
 function makeEmailValidator() {
-  return new EmailValidator();
+  class EmailValidatorSpy {
+    isEmailValid: boolean;
+    email: string;
+
+    isValid(email: string) {
+      this.email = email;
+      const validRegex =
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+      if (email.match(validRegex)) {
+        this.isEmailValid = true;
+        return this.isEmailValid;
+      }
+
+      this.isEmailValid = false;
+      return this.isEmailValid;
+    }
+  }
+
+  return new EmailValidatorSpy();
 }
 
 describe("Login Router", () => {
