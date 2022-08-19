@@ -1,11 +1,4 @@
-import bcrypt from "bcrypt";
-
-class Encrypter {
-  async compare(value: string, hashed_value: string) {
-    const isValid = await bcrypt.compare(value, hashed_value);
-    return isValid;
-  }
-}
+import { Encrypter } from "./encrypter";
 
 function makeSut() {
   return new Encrypter();
