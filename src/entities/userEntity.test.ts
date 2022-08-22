@@ -43,7 +43,6 @@ describe("User Entity", () => {
     const email = "invalid_email@test.com";
     const user = await sut.getdUserByEmail(email);
     expect(user).toBeNull();
-    expect(true).toBe(true);
   });
 
   it("Should return an user if user is found", async () => {
