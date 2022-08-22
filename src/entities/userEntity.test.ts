@@ -55,6 +55,6 @@ describe("User Entity", () => {
     });
 
     const user = await sut.getdUserByEmail(email);
-    expect(user.email).toBe("valid_email@test.com");
+    expect(user.email).toBe(email);
   });
 });
