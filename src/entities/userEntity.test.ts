@@ -49,11 +49,11 @@ describe("User Entity", () => {
     const { sut, userCollection } = makeSut();
     const email = "valid_email@test.com";
 
-    await userCollection.insertOne({
+    const insertedUser = await userCollection.insertOne({
       email,
     });
 
     const user = await sut.getdUserByEmail(email);
-    expect(user.email).toBe(email);
+    expect(user._id).toStrictEqual(insertedUser.insertedId);
   });
 });
