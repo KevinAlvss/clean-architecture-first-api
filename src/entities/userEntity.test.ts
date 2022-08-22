@@ -1,18 +1,7 @@
-import { Collection, Db, MongoClient } from "mongodb";
+import { Db, MongoClient } from "mongodb";
+import { UserEntity } from "./userEntity";
+
 let connection: MongoClient, db: Db;
-
-class UserEntity {
-  userCollection: Collection;
-
-  constructor(userCollection: Collection) {
-    this.userCollection = userCollection;
-  }
-
-  async getdUserByEmail(email: string) {
-    const user = await this.userCollection.findOne({ email });
-    return user;
-  }
-}
 
 function makeSut() {
   const userCollection = db.collection("users");
