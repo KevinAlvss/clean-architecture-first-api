@@ -33,7 +33,7 @@ describe("User Entity", () => {
     const { sut } = makeSut();
 
     const email = "invalid_email@test.com";
-    const user = await sut.getdUserByEmail(email);
+    const user = await sut.getUserByEmail(email);
     expect(user).toBeNull();
   });
 
@@ -45,7 +45,7 @@ describe("User Entity", () => {
       email,
     });
 
-    const user = await sut.getdUserByEmail(email);
+    const user = await sut.getUserByEmail(email);
     expect(user._id).toStrictEqual(insertedUser.insertedId);
   });
 });

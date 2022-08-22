@@ -7,7 +7,7 @@ export class UserEntity {
     this.userCollection = userCollection;
   }
 
-  async getdUserByEmail(email: string) {
+  async getUserByEmail(email: string) {
     const user = await this.userCollection.findOne({ email });
     return user;
   }
