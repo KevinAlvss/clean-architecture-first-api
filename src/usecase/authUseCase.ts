@@ -2,13 +2,11 @@ export class AuthUseCase {
   userEntity: any;
   encrypter: any;
   tokenGenerator: any;
-  updateAccessToken: any;
 
-  constructor({ userEntity, encrypter, tokenGenerator, updateAccessToken }) {
+  constructor({ userEntity, encrypter, tokenGenerator }) {
     this.userEntity = userEntity;
     this.encrypter = encrypter;
     this.tokenGenerator = tokenGenerator;
-    this.updateAccessToken = updateAccessToken;
   }
 
   async auth(email: string, password: string) {
@@ -19,7 +17,7 @@ export class AuthUseCase {
 
     if (isValid) {
       const acessToken = await this.tokenGenerator.generate(user.id);
-      await this.updateAccessToken.update(user.id, acessToken);
+      await this.userEntity.updateAccessToken(user.id, acessToken);
       return acessToken;
     }
 
