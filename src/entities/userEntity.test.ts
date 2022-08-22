@@ -48,4 +48,24 @@ describe("User Entity", () => {
     const user = await sut.getUserByEmail(email);
     expect(user._id).toStrictEqual(insertedUser.insertedId);
   });
+
+  it("Should update user with the given access token", async () => {
+    const { sut, userCollection } = makeSut();
+    const email = "valid_email@test.com";
+
+    const insertedUser = await userCollection.insertOne({
+      email,
+    });
+
+    await sut.updateAccessToken(
+      JSON.stringify(insertedUser.insertedId),
+      "valid_token"
+    );
+
+    const user = await userCollection.findOne({
+      _id: insertedUser.insertedId,
+    });
+
+    expect(user.accessToken).toBe("valid_token");
+  });
 });

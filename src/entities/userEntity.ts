@@ -1,4 +1,4 @@
-import { Collection } from "mongodb";
+import { Collection, ObjectId } from "mongodb";
 
 export class UserEntity {
   userCollection: Collection;
@@ -10,5 +10,18 @@ export class UserEntity {
   async getUserByEmail(email: string) {
     const user = await this.userCollection.findOne({ email });
     return user;
+  }
+
+  async updateAccessToken(userId: string, accessToken: string) {
+    await this.userCollection.updateOne(
+      {
+        _id: new ObjectId(JSON.parse(userId)),
+      },
+      {
+        $set: {
+          accessToken,
+        },
+      }
+    );
   }
 }
