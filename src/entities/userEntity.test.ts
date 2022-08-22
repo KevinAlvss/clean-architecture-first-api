@@ -1,7 +1,10 @@
-import { Db, MongoClient } from "mongodb";
+import { Db } from "mongodb";
+import { MongoHelper } from "./helpers/mongoHelper";
 import { UserEntity } from "./userEntity";
 
-let connection: MongoClient, db: Db;
+const mongoHelper = new MongoHelper();
+
+let db: Db;
 
 function makeSut() {
   const userCollection = db.collection("users");
@@ -14,8 +17,8 @@ function makeSut() {
 
 describe("User Entity", () => {
   beforeAll(async () => {
-    connection = await MongoClient.connect(global.__MONGO_URI__);
-    db = connection.db("cademeudoguinho");
+    await mongoHelper.connect(global.__MONGO_URI__);
+    db = mongoHelper.getDb();
   });
 
   beforeEach(async () => {
@@ -23,7 +26,7 @@ describe("User Entity", () => {
   });
 
   afterAll(async () => {
-    await connection.close();
+    await mongoHelper.disconnect();
   });
 
   it("Should return null if no user is found", async () => {
