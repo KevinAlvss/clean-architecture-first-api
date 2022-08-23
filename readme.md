@@ -1,6 +1,8 @@
-## Minha primeira api com clean architecture e TDD
+# Minha primeira api com clean architecture e TDD
 
-> ## Princípios
+Estudo de clean architecture e principais conceitos de boas práticas de código
+
+## Princípios
 
 - Single Responsibility Principle (SRP)
 - Open Closed Principle (OCP)
@@ -9,12 +11,12 @@
 - Keep It Simple, Silly (KISS)
 - Small Commits
 
-> ## Design Patterns
+## Design Patterns
 
 - Factory
 - Adapter
 
-> ## Metodologias e Designs
+## Metodologias e Designs
 
 - TDD
 - Clean Architecture
@@ -22,7 +24,7 @@
 - Conventional Commits
 - Use Cases
 
-> ## Bibliotecas e Ferramentas
+## Bibliotecas e Ferramentas
 
 - NPM
 - Typescript
@@ -36,13 +38,13 @@
 - In-Memory MongoDb Server
 - MockDate
 
-> ## Features de Testes
+## Features de Testes
 
 - Testes Unitários
 - Spies
 - Fakes
 
-> ## Features do MongoDb
+## Features do MongoDb
 
 - Connect
 - Collections
