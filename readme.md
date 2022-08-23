@@ -1,8 +1,8 @@
-# Minha primeira api com clean architecture e TDD
+# My first API with clean architecture and TDD
 
-Estudo de clean architecture e principais conceitos de boas práticas de código
+Clean architecture, Design Patterns and Tests study
 
-## Princípios
+## Principles
 
 - Single Responsibility Principle (SRP)
 - Open Closed Principle (OCP)
@@ -16,14 +16,14 @@ Estudo de clean architecture e principais conceitos de boas práticas de código
 - Factory
 - Adapter
 
-## Metodologias e Designs
+## Metodologies and Designs
 
 - TDD
 - Clean Architecture
 - Conventional Commits
 - Use Cases
 
-## Bibliotecas e Ferramentas
+## Libraries and tools
 
 - NPM
 - Typescript
@@ -37,13 +37,13 @@ Estudo de clean architecture e principais conceitos de boas práticas de código
 - In-Memory MongoDb Server
 - MockDate
 
-## Features de Testes
+## Tests Features
 
-- Testes Unitários
+- Unity tests
 - Spies
 - Fakes
 
-## Features do MongoDb
+## MongoDb Features
 
 - Connect
 - Collections
