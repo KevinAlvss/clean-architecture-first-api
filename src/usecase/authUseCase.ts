@@ -15,12 +15,10 @@ export class AuthUseCase {
     const isValid =
       user && (await this.encrypter.compare(password, user.password));
 
-    if (isValid) {
-      const acessToken = await this.tokenGenerator.generate(user.id);
-      await this.userEntity.updateAccessToken(user.id, acessToken);
-      return acessToken;
-    }
+    if (!isValid) return null;
 
-    return null;
+    const acessToken = await this.tokenGenerator.generate(user.id);
+    await this.userEntity.updateAccessToken(user.id, acessToken);
+    return acessToken;
   }
 }
