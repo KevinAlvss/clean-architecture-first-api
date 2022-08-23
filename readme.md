@@ -20,7 +20,6 @@ Estudo de clean architecture e principais conceitos de boas práticas de código
 
 - TDD
 - Clean Architecture
-- DDD
 - Conventional Commits
 - Use Cases
 
