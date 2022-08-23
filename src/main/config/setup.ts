@@ -1,11 +1,7 @@
 import { Express } from "express";
+import { cors } from "../middlewares/cors";
 
 export function setupApp(app: Express) {
   app.disable("x-powered-by");
-  app.use((req, resp, next) => {
-    resp.set("access-control-allow-origin", "*");
-    resp.set("access-control-allow-methods", "*");
-    resp.set("access-control-allow-headers", "*");
-    next();
-  });
+  app.use(cors);
 }
