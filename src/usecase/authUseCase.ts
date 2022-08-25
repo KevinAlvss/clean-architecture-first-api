@@ -1,7 +1,11 @@
+import { UserEntity } from "../entities/userEntity";
+import { Encrypter } from "../utils/encrypter";
+import { TokenGenerator } from "../utils/tokenGenerator";
+
 export class AuthUseCase {
-  userEntity: any;
-  encrypter: any;
-  tokenGenerator: any;
+  userEntity: UserEntity;
+  encrypter: Encrypter;
+  tokenGenerator: TokenGenerator;
 
   constructor({ userEntity, encrypter, tokenGenerator }) {
     this.userEntity = userEntity;
@@ -10,7 +14,7 @@ export class AuthUseCase {
   }
 
   async auth(email: string, password: string) {
-    const user = await this.userEntity.load(email);
+    const user = await this.userEntity.getUserByEmail(email);
 
     const isValid =
       user && (await this.encrypter.compare(password, user.password));

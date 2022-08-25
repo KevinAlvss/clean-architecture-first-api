@@ -7,7 +7,7 @@ class UserEntitySpy {
   userId: string;
   accessToken: string;
 
-  async load(email: string) {
+  async getUserByEmail(email: string) {
     this.email = email;
     return this.user;
   }
