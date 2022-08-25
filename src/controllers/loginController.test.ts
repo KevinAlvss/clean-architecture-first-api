@@ -1,5 +1,6 @@
 import { LoginController } from "./loginController";
 import { EmailValidator } from "../utils/emailValidator";
+import { UserEntity } from "../entities/userEntity";
 
 function makeSut() {
   const authUseCaseSpy = makeAuthUseCase();
@@ -18,6 +19,16 @@ function makeAuthUseCase() {
     email: string;
     password: string;
     acessToken: string | null;
+    userEntity: any;
+    encrypter: any;
+    tokenGenerator: any;
+
+    constructor({ userEntity, encrypter, tokenGenerator }) {
+      this.userEntity = userEntity;
+      this.encrypter = encrypter;
+      this.tokenGenerator = tokenGenerator;
+    }
+
     async auth(email: string, password: string) {
       this.email = email;
       this.password = password;
@@ -25,7 +36,11 @@ function makeAuthUseCase() {
     }
   }
 
-  const authUseCaseSpy = new AuthUseCaseSpy();
+  const authUseCaseSpy = new AuthUseCaseSpy({
+    encrypter: null,
+    tokenGenerator: null,
+    userEntity: null,
+  });
   authUseCaseSpy.acessToken = "valid_token";
   return authUseCaseSpy;
 }

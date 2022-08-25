@@ -1,6 +1,7 @@
 import { InvalidCredentialError } from "../helpers/errors";
 import { HttpResponse } from "../helpers/httpResponse";
 import { EmailValidator } from "../utils/emailValidator";
+import { AuthUseCase } from "../usecase/authUseCase";
 
 interface LoginHttpRequest {
   body: {
@@ -11,8 +12,8 @@ interface LoginHttpRequest {
 
 export class LoginController {
   public emailValidator: EmailValidator;
-  public authUseCase: any;
-  constructor(authUseCase, emailValidator) {
+  public authUseCase: AuthUseCase;
+  constructor(authUseCase: AuthUseCase, emailValidator: EmailValidator) {
     this.authUseCase = authUseCase;
     this.emailValidator = emailValidator;
   }
